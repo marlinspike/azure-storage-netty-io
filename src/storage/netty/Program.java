@@ -8,7 +8,7 @@ public class Program {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//HttpUploadClient client = new HttpUploadClient("account name","account key");
-		HTTPUploadClientAsync client2 = new HTTPUploadClientAsync("reuben","zGXjHNLJEnvB3uUAEEIHY7C3I0q4e2UzYwV8P4PhPgdrjenu8YqkUf47OyB9xI9wK5DRZfn3xs4KzoyoHxvnTg==");
+		HTTPUploadClientAsync client2 = new HTTPUploadClientAsync("<account name>","<account key>");
 
 		try {
 			//File[] files = new File("C:\\test").listFiles();
