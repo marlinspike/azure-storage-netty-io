@@ -80,7 +80,7 @@ import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.lang.String;
-
+import javax.activation.*;
 import javax.activation.MimetypesFileTypeMap;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -102,9 +102,10 @@ public final class HTTPUploadClientAsync {
     	
     }
 
-    public void putBlob(String filepath) throws Exception {
+    public void putBlob(String filepath, String containerName) throws Exception {
           
-    	String resourceUrl = "/mycontainer/" + randomString(5);
+        //String resourceUrl = "/mycontainer/" + randomString(5);
+        String resourceUrl = "/" + containerName + "/" + randomString(5);
         String putBlobUrl = base_url + resourceUrl;
 
         URI uriSimple = new URI(putBlobUrl);
