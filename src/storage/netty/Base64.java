@@ -17,6 +17,7 @@ package storage.netty;
  * RESERVED FOR INTERNAL USE. Provides Base64 encoding, decoding, and validation functionality.
  */
 public final class Base64 {
+    
     /**
      * The Base 64 Characters.
      */
