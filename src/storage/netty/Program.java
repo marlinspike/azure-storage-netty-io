@@ -17,28 +17,16 @@ public class Program implements Runnable {
 	@Option(names = {"-d", "--directory"}, required = true, description = "Directory with files to upload to Azure.")
 	private String DIRECTORY = "";
 
-	public void test_setup(){
-		AZURE_STORAGE_ACCOUNT_NAME = "reuben";
-		STORAGE_CONTAINER = "test";
-		KEY = "zGXjHNLJEnvB3uUAEEIHY7C3I0q4e2UzYwV8P4PhPgdrjenu8YqkUf47OyB9xI9wK5DRZfn3xs4KzoyoHxvnTg==";
-		DIRECTORY = "files";
-	}
 
 	public void run(){
-		System.out.println("RUNNING..........................");
-		this.test_setup();
-		//HttpUploadClient client = new HttpUploadClient("account name","account key");
 		HTTPUploadClientAsync client2 = new HTTPUploadClientAsync(AZURE_STORAGE_ACCOUNT_NAME, KEY);
 
 		try {
-			//File[] files = new File("C:\\test").listFiles();
-			
 			long start = System.currentTimeMillis();
 			
-			//for (File file : files) {
-				System.out.println("Putting blob: " + DIRECTORY);
-				client2.putBlob(DIRECTORY, STORAGE_CONTAINER);
-			//}
+			System.out.println("Putting blob: " + DIRECTORY);
+			client2.putBlob(DIRECTORY, STORAGE_CONTAINER);
+
 			
 			long stop = System.currentTimeMillis();
 			System.out.println((stop - start)/1000 + "seconds");
