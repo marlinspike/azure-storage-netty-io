@@ -4,8 +4,12 @@ Using Netty to write to Azure storage
 
 To use:
 
-- Edit Program.java and replace placeholders for and with valid ones. Please remember not to check account keys in to public repos.
+- Run (via Maven): 
+mvn exec:java -Dexec.mainClass="storage.netty.Program" -Dexec.args="-a <STORAGE_ACCOUNT_NAME> -c <CONTAINER_NAME> -d <FOLDER_WITH_FILES_TO_UPLOAD> -k <KEY>"
 
-- Run (via Maven): mvn exec:java -Dexec.mainClass="storage.netty.Program" -Dexec.args="<folder_with_files> <target_azure_container_name>"
 
-For example: mvn exec:java -Dexec.mainClass="storage.netty.Program" -Dexec.args="/Users/tintin/code/java/azure-storage-netty/files/ marlinspike"
+Command Line Options:
+- a: Storage Account Name
+- c: Container Name
+- d: Directory with files to upload 
+- k: Primary or Secondary Key of Storage Account
