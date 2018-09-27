@@ -92,7 +92,7 @@ public final class HttpUploadClient {
     
     public HttpUploadClient(String account_name, String account_key){
     	
-        this.base_url = "http://" + account_name + ".blob.core.windows.net";
+        this.base_url = "https://" + account_name + ".blob.core.windows.net";
         this.account_name = account_name;
         this.account_key= account_key;
     	

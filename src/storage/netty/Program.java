@@ -1,14 +1,34 @@
 package storage.netty;
-
 import java.io.File;
 import java.util.Timer;
+import picocli.CommandLine.Option;
+import picocli.CommandLine;
 
-public class Program {
+import java.time.Duration;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
+public class Program implements Runnable {
+	@Option(names = {"-a", "--account"}, required = true, description = "Azure Storage Account Name where the files uploaded should be stored.")
+	private String AZURE_STORAGE_ACCOUNT_NAME = "";
+	@Option(names = {"-c", "--container"}, required = true, description = "Container within which to store the files.")
+	private String STORAGE_CONTAINER = "";
+	@Option(names = {"-k", "--key"}, required = true, description = "Either the Primary or Secondary account key.")
+	private String KEY = "";
+	@Option(names = {"-d", "--directory"}, required = true, description = "Directory with files to upload to Azure.")
+	private String DIRECTORY = "";
+
+	public void test_setup(){
+		AZURE_STORAGE_ACCOUNT_NAME = "reuben";
+		STORAGE_CONTAINER = "test";
+		KEY = "zGXjHNLJEnvB3uUAEEIHY7C3I0q4e2UzYwV8P4PhPgdrjenu8YqkUf47OyB9xI9wK5DRZfn3xs4KzoyoHxvnTg==";
+		DIRECTORY = "files";
+	}
+
+	public void run(){
+		System.out.println("RUNNING..........................");
+		this.test_setup();
 		//HttpUploadClient client = new HttpUploadClient("account name","account key");
-		HTTPUploadClientAsync client2 = new HTTPUploadClientAsync("<account name>","<account key>");
+		HTTPUploadClientAsync client2 = new HTTPUploadClientAsync(AZURE_STORAGE_ACCOUNT_NAME, KEY);
 
 		try {
 			//File[] files = new File("C:\\test").listFiles();
@@ -16,17 +36,22 @@ public class Program {
 			long start = System.currentTimeMillis();
 			
 			//for (File file : files) {
-				System.out.println("Putting blob: " + args[0]);
-				client2.putBlob(args[0], args[1]);
+				System.out.println("Putting blob: " + DIRECTORY);
+				client2.putBlob(DIRECTORY, STORAGE_CONTAINER);
 			//}
 			
 			long stop = System.currentTimeMillis();
 			System.out.println((stop - start)/1000 + "seconds");
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
+	
+	public static void main( String[] args ){
+
+		CommandLine.run(new Program(), args);
+    }
 
 }
