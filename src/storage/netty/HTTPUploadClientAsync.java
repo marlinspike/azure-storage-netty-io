@@ -102,6 +102,10 @@ public final class HTTPUploadClientAsync {
     	
     }
 
+    /*
+    Main entry point for blob uploads.
+    To-Do: Progress
+     */
     public void putBlob(String filepath, String containerName) throws Exception {
           
         //String resourceUrl = "/mycontainer/" + randomString(5);
@@ -110,7 +114,9 @@ public final class HTTPUploadClientAsync {
 
         URI uriSimple = new URI(putBlobUrl);
         String scheme = uriSimple.getScheme() == null? "http" : uriSimple.getScheme();
-        String host = uriSimple.getHost() == null? "127.0.0.1" : uriSimple.getHost();
+
+        String host = uriSimple.getHost() == null? "127.0.0.1" : uriSimple.getHost(); //local test
+
         int port = uriSimple.getPort();
         if (port == -1) {
             if ("http".equalsIgnoreCase(scheme)) {
@@ -151,7 +157,6 @@ public final class HTTPUploadClientAsync {
         DiskAttribute.baseDirectory = null; // system temp directory
 
         try {
-
             Bootstrap b = new Bootstrap();
             b.group(group).channel(NioSocketChannel.class).handler(new HttpUploadClientInitializer(sslCtx));
             b.option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 10 * 64 * 1024);
@@ -162,14 +167,16 @@ public final class HTTPUploadClientAsync {
             b.option(ChannelOption.AUTO_CLOSE, true);
             
             //Iterate over files
+
             
             Collection<ChannelFuture> futures = new ArrayList<ChannelFuture>();
-
-            for(final File file : path.listFiles()) 
+            int numberOfFiles = path.listFiles().length;
+            int i = 0;
+            for(final File file : path.listFiles())
             {
-              
+              i++;
               String blobname = file.getName();
-              System.out.println( blobname );
+              //-System.out.println( blobname );
 
               HttpRequest request = formpost( host, port, resourceUrl+blobname, file, factory);
               ChannelFuture cf = b.connect(host, port);
@@ -182,12 +189,13 @@ public final class HTTPUploadClientAsync {
              	  
              	  // check to see if we succeeded
              	  if(future.isSuccess()) {
-             		  	System.out.println("connected for " + blobname);             	   
+             		  	//-System.out.println("connected for " + blobname);
              	  } else {
            		  	System.out.println(future.cause().getMessage());             	               		  
              	  }
              	 }
-             	});   
+             	});
+
             }
             
             for (ChannelFuture cf : futures){
@@ -256,10 +264,10 @@ public final class HTTPUploadClientAsync {
             ifMatch,
             GetCanonicalizedHeaders(request),
             GetCanonicalizedResource(resourceUrl, storageAccountName));
-        System.out.println(MessageSignature);
+        //-System.out.println(MessageSignature);
         // Create the HMACSHA256 version of the storage key.
         String AuthorizationHeader = computeHmac256(storageAccountKey, MessageSignature);
-        System.out.println(AuthorizationHeader);
+        //-System.out.println(AuthorizationHeader);
         
         return AuthorizationHeader;
     }
@@ -329,7 +337,9 @@ public final class HTTPUploadClientAsync {
             
             return null;
     }
-    
+
+
+    /*Generate a random string of a given length. Used for testing purposes when you don't want to have to keep emptying containers. */
     String randomString( int len ){
     	StringBuilder sb = new StringBuilder( len );
         SecureRandom rnd = new SecureRandom();

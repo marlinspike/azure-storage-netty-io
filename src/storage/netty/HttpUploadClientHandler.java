@@ -99,6 +99,7 @@ public class HttpUploadClientHandler extends SimpleChannelInboundHandler<HttpObj
       
     @Override
     public void channelRead0(ChannelHandlerContext ctx, HttpObject msg) {
+        //Connection
         if (msg instanceof HttpResponse) {
             HttpResponse response = (HttpResponse) msg;
 
@@ -120,10 +121,12 @@ public class HttpUploadClientHandler extends SimpleChannelInboundHandler<HttpObj
                 System.err.println("CONTENT {");
             }
         }
+        //File Content
         if (msg instanceof HttpContent) {
             HttpContent chunk = (HttpContent) msg;
             System.err.println(chunk.content().toString(CharsetUtil.UTF_8));
 
+            //EoF
             if (chunk instanceof LastHttpContent) {
                 if (readingChunks) {
                     System.err.println("} END OF CHUNKED CONTENT");
