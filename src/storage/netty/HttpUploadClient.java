@@ -99,8 +99,6 @@ public final class HttpUploadClient {
     }
 
     public void putBlob(String filepath) throws Exception {
-          
-        //putblob: http://sercan.blob.core.windows.net/containername/blobname
     	this.FILE = filepath;
     	String resourceUrl = "/mycontainer/" + randomString(5);
         String putBlobUrl = base_url + resourceUrl;
@@ -196,15 +194,9 @@ public final class HttpUploadClient {
         setContentTypeHeader(request, file);
 
         // Use the PostBody encoder
-        //HttpPostRequestEncoder bodyRequestEncoder =
-        //        new HttpPostRequestEncoder(factory, request, false);  // false => not multipart
-
-        // add Form attribute
-        //bodyRequestEncoder.addBodyFileUpload("myfile", file, "application/x-zip-compressed", false);
         request.headers().set("Authorization", "SharedKey " + account_name + ":" + AuthorizationHeader(account_name, account_key, "PUT", dateTime, request, resourceUrl, "", ""));
 
 	    channel.write(request);
-        // ByteBuf buffer = Unpooled.copiedBuffer(Files.readAllBytes(file.toPath()));        		  //ByteBuf buffer = Unpooled.buffer(new FileInputStream(file), (int) file.length());
 
         ChannelFuture sendFileFuture = channel.write(new DefaultFileRegion(raf.getChannel(), 0, fileLength), channel.newProgressivePromise());
         	      
